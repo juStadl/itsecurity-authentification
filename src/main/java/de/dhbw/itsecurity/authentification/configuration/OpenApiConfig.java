@@ -11,13 +11,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @OpenAPIDefinition(
         info = @Info(title = "Channel API", version = "v1"),
-        security = @SecurityRequirement(name = "bearerAuth")
+        security = @SecurityRequirement(name = "basics")
 )
 @SecurityScheme(
-        name = "bearerAuth",
+        name = "basic",
         type = SecuritySchemeType.HTTP,
-        bearerFormat = "JWT",
-        scheme = "bearer",
+        scheme = "basic",
         in = SecuritySchemeIn.HEADER
 )
 public class OpenApiConfig {
