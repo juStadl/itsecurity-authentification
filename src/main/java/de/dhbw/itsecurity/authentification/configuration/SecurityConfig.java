@@ -12,6 +12,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
 import org.springframework.security.core.session.SessionRegistryImpl;
@@ -20,6 +21,7 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 
 @Configuration
 @KeycloakConfiguration
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
 	@Override
@@ -41,7 +43,6 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 		keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(new SimpleAuthorityMapper());
 		auth.authenticationProvider(keycloakAuthenticationProvider);
 
-		auth.inMemoryAuthentication().withUser("user").password("{noop}user").roles("USER");
 	}
 
 	// if setEnabled = true the AuthorizationContext, which is needed in the Controllers, is null
