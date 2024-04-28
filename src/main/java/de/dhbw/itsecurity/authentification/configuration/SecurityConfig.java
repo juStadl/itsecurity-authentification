@@ -28,17 +28,20 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
 
 		http.authorizeRequests().antMatchers("/v3/api-docs/**").permitAll();
-		http.authorizeRequests().antMatchers("/swagger-ui/**").permitAll();
+		http.authorizeRequests().antMatchers("/swagger-ui/**").authenticated();
+		http.httpBasic();
 		http.authorizeRequests().anyRequest().authenticated();
 		http.csrf().disable();
 		http.headers().frameOptions().sameOrigin();
 	}
 
 	@Autowired
-	public void configureGlobal(final AuthenticationManagerBuilder auth) {
+	public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
 		KeycloakAuthenticationProvider keycloakAuthenticationProvider = keycloakAuthenticationProvider();
 		keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(new SimpleAuthorityMapper());
 		auth.authenticationProvider(keycloakAuthenticationProvider);
+
+		auth.inMemoryAuthentication().withUser("user").password("{noop}user").roles("USER");
 	}
 
 	// if setEnabled = true the AuthorizationContext, which is needed in the Controllers, is null
