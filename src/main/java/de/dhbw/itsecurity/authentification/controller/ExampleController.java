@@ -27,4 +27,9 @@ public class ExampleController {
 		return webClient.get().uri("https://localhost:8082/server").retrieve()
 				.bodyToMono(String.class).block();
 	}
+
+	@GetMapping
+	public String helloWorld(){
+		return "Application started.";
+	}
 }
